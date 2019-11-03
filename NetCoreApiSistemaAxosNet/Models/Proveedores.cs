@@ -21,8 +21,8 @@ namespace NetCoreApiSistemaAxosNet.Models
         public Boolean Active { get; set; }
         public int IdUsuarioCreador { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public int IdUsuarioModificador { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        //public int IdUsuarioModificador { get; set; }
+        //public DateTime FechaModificacion { get; set; }
 
         public class Mapeo
         {
@@ -40,8 +40,8 @@ namespace NetCoreApiSistemaAxosNet.Models
                 mapeoProveedor.Property(x => x.Active);
                 mapeoProveedor.Property(x => x.IdUsuarioCreador);
                 mapeoProveedor.Property(x => x.FechaCreacion);
-                mapeoProveedor.Property(x => x.IdUsuarioModificador);
-                mapeoProveedor.Property(x => x.FechaModificacion);
+                //mapeoProveedor.Property(x => x.IdUsuarioModificador);
+                //mapeoProveedor.Property(x => x.FechaModificacion);
 
                 mapeoProveedor.ToTable("tblProveedores");
             }
