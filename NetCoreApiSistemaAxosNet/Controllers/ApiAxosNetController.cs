@@ -8,6 +8,7 @@ using NetCoreApiSistemaAxosNet.Services;
 using System.Data.SqlClient;
 using NetCoreApiSistemaAxosNet.Models;
 using Microsoft.EntityFrameworkCore;
+using NetCoreApiSistemaAxosNet.Data;
 
 namespace NetCoreApiSistemaAxosNet.Controllers
 {
@@ -17,10 +18,13 @@ namespace NetCoreApiSistemaAxosNet.Controllers
     {
         private readonly ApiService _apiService;
         private readonly ApiDBContext _apiDBContext;
-        public ApiAxosNetController(ApiService apiService, ApiDBContext apiDBContext)
+        private readonly Repository _repository;
+
+        public ApiAxosNetController(ApiService apiService, ApiDBContext apiDBContext, Repository repository)
         {
             _apiService = apiService;
             _apiDBContext = apiDBContext;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         [HttpGet]
@@ -42,6 +46,13 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region Monedas
+        [HttpGet]
+        [Route("Get")]
+        public async Task<ActionResult<IEnumerable<Monedas>>> Get()
+        {
+            return await _repository.GetAll();
+        }
+
         [HttpGet]
         [Route("GetListarMonedasT")]
         public async Task<ActionResult<IEnumerable<Monedas>>> GetListarMonedasT()

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NetCoreApiSistemaAxosNet.Data;
 using NetCoreApiSistemaAxosNet.Services;
 
 namespace NetCoreApiSistemaAxosNet
@@ -29,6 +30,7 @@ namespace NetCoreApiSistemaAxosNet
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<ApiDBContext>(opciones => opciones.UseSqlServer(Configuration.GetConnectionString("cnStrStd")));
             services.AddTransient<ApiService, ApiService>();
+            services.AddScoped<Repository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
