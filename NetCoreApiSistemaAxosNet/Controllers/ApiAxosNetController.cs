@@ -34,39 +34,94 @@ namespace NetCoreApiSistemaAxosNet.Controllers
             return Ok("pruebas de las pruebas para las pruebas.");
         }
 
+        #region Ciudades
+        [HttpGet]
+        [Route("CiudadesGet")]
+        public async Task<ActionResult<IEnumerable<Ciudades>>> CiudadesGetAll()
+        {
+            return await _repository.CiudadesGetAll();
+        }
+
+        [HttpGet("CiudadesGet/{id}")]
+        public async Task<ActionResult<Ciudades>> CiudadesGetById(int id)
+        {
+            var response = await _repository.CiudadesGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("CiudadesGetActives")]
+        public async Task<ActionResult<IEnumerable<Ciudades>>> CiudadesGetActives()
+        {
+            return await _repository.CiudadesGetActives();
+        }
+
+        [HttpPost]
+        [Route("CiudadesInsert")]
+        public async Task CiudadesInsert([FromBody] Ciudades Ciudad)
+        {
+            await _repository.CiudadesInsert(Ciudad);
+        }
+        #endregion
+
+        #region Estados
+        #endregion
 
         #region Menus
-        [HttpGet]
-        [Route("ListarMenus")]
-        public IActionResult ListarMenus()
-        {
-            var result = _apiService.ListarMenus();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[Route("ListarMenus")]
+        //public IActionResult ListarMenus()
+        //{
+        //    var result = _apiService.ListarMenus();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Monedas
         [HttpGet]
-        [Route("Get")]
-        public async Task<ActionResult<IEnumerable<Monedas>>> Get()
+        [Route("MonedasGet")]
+        public async Task<ActionResult<IEnumerable<Monedas>>> MonedasGetAll()
         {
-            return await _repository.GetAll();
+            return await _repository.MonedasGetAll();
+        }
+
+        [HttpGet("MonedasGet/{id}")]
+        public async Task<ActionResult<Monedas>> MonedasGetById(int id)
+        {
+            var response = await _repository.MonedasGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
         }
 
         [HttpGet]
-        [Route("GetListarMonedasT")]
-        public async Task<ActionResult<IEnumerable<Monedas>>> GetListarMonedasT()
-        {            
-            return await _apiDBContext.Monedas.ToListAsync();
+        [Route("MonedasGetActives")]
+        public async Task<ActionResult<IEnumerable<Monedas>>> MonedasGetActives()
+        {
+            return await _repository.MonedasGetActives();
         }
 
-        [HttpGet]
-        [Route("ListarMonedas")]
-        public IActionResult ListarMonedas()
+        [HttpPost]
+        [Route("MonedasInsert")]
+        public async Task MonedasInsert([FromBody] Monedas Moneda)
         {
-            var result = _apiService.ListarMonedas();
-            return Ok(result);
+            await _repository.MonedasInsert(Moneda);
         }
+
+        //[HttpGet]
+        //[Route("GetListarMonedasT")]
+        //public async Task<ActionResult<IEnumerable<Monedas>>> GetListarMonedasT()
+        //{            
+        //    return await _apiDBContext.Monedas.ToListAsync();
+        //}
+
+        //[HttpGet]
+        //[Route("ListarMonedas")]
+        //public IActionResult ListarMonedas()
+        //{
+        //    var result = _apiService.ListarMonedas();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Paises
@@ -80,43 +135,43 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region Proveedores
-        [HttpGet]
-        [Route("ListarProveedores")]
-        public IActionResult ListarProveedores()
-        {
-            var result = _apiService.ListarProveedores();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[Route("ListarProveedores")]
+        //public IActionResult ListarProveedores()
+        //{
+        //    var result = _apiService.ListarProveedores();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Recibos
-        [HttpGet]
-        [Route("ListarRecibos")]
-        public IActionResult ListarRecibos()
-        {
-            var result = _apiService.ListarRecibos();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[Route("ListarRecibos")]
+        //public IActionResult ListarRecibos()
+        //{
+        //    var result = _apiService.ListarRecibos();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region TipoUsuarios
-        [HttpGet]
-        [Route("ListarTipoUsuarios")]
-        public IActionResult ListarTipoUsuarios()
-        {
-            var result = _apiService.ListarTipoUsuarios();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[Route("ListarTipoUsuarios")]
+        //public IActionResult ListarTipoUsuarios()
+        //{
+        //    var result = _apiService.ListarTipoUsuarios();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Usuarios
-        [HttpGet]
-        [Route("ListarUsuarios")]
-        public IActionResult ListarUsuarios()
-        {
-            var result = _apiService.ListarUsuarios();
-            return Ok(result);
-        }
+        //[HttpGet]
+        //[Route("ListarUsuarios")]
+        //public IActionResult ListarUsuarios()
+        //{
+        //    var result = _apiService.ListarUsuarios();
+        //    return Ok(result);
+        //}
         #endregion
 
     }

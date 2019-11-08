@@ -14,6 +14,8 @@ namespace NetCoreApiSistemaAxosNet
 
         }
 
+        public DbSet<Ciudades> Ciudades { get; set; }
+        public DbSet<Estados> Estados { get; set; }
         public DbSet<Menus> Menus { get; set; }
         public DbSet<Monedas> Monedas { get; set; }
         public DbSet<Paises> Paises { get; set; }
@@ -25,6 +27,8 @@ namespace NetCoreApiSistemaAxosNet
 
         protected override void OnModelCreating(ModelBuilder modeloCreador)
         {
+            new Ciudades.Mapeo(modeloCreador.Entity<Ciudades>());
+            new Estados.Mapeo(modeloCreador.Entity<Estados>());
             new Menus.Mapeo(modeloCreador.Entity<Menus>());
             new Monedas.Mapeo(modeloCreador.Entity<Monedas>());
             new Paises.Mapeo(modeloCreador.Entity<Paises>());
