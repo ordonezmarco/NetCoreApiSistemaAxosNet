@@ -13,9 +13,8 @@ namespace NetCoreApiSistemaAxosNet.Models
         public string RazonSocial { get; set; }
         public string Nombre { get; set; }
         public string Domicilio { get; set; }
-        public string Ciudad { get; set; }
-        public string Distrito { get; set; }
-        public string Estado { get; set; }
+        public int IdCiudad { get; set; }
+        public int IdEstado { get; set; }
         public int IdPais { get; set; }
         public int CP { get; set; }
         public Boolean Active { get; set; }

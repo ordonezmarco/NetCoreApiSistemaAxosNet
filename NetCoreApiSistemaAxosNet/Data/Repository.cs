@@ -17,6 +17,7 @@ namespace NetCoreApiSistemaAxosNet.Data
         {
             _connectionString = configuration.GetConnectionString("cnStrStd");
         }
+
         #region Ciudades
         public async Task<List<Ciudades>> CiudadesGetAll()
         {
@@ -120,6 +121,104 @@ namespace NetCoreApiSistemaAxosNet.Data
         #endregion
 
         #region Estados
+        public async Task<List<Estados>> EstadosGetAll()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Estados", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Estados>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToEstados(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        private Estados MapToEstados(SqlDataReader reader)
+        {
+            return new Estados()
+            {
+
+                IdEstado = (int)reader["IdEstado"],
+                CodigoEstado = reader["CodigoEstado"].ToString(),
+                Nombre = reader["Nombre"].ToString()
+            };
+        }
+
+        public async Task<Estados> EstadosGetById(int Id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Estados_ById", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdEstado", Id));
+                    Estados response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response = MapToEstados(reader);
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task<List<Estados>> EstadosGetActives()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Estados_Active", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Estados>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToEstados(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task EstadoInsert(Estados Estado)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_INS_Estados", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@CodigoEstado", Estado.CodigoEstado));
+                    cmd.Parameters.Add(new SqlParameter("@Nombre", Estado.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@IdPais", Estado.IdPais));
+                    cmd.Parameters.Add(new SqlParameter("@IdUser", Estado.IdUsuarioCreador));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
         #endregion
 
         #region Menus
@@ -224,30 +323,234 @@ namespace NetCoreApiSistemaAxosNet.Data
                 }
             }
         }
-
-        //public async Task DeleteById(int Id)
-        //{
-        //    using (SqlConnection sql = new SqlConnection(_connectionString))
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand("DeleteValue", sql))
-        //        {
-        //            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-        //            cmd.Parameters.Add(new SqlParameter("@Id", Id));
-        //            await sql.OpenAsync();
-        //            await cmd.ExecuteNonQueryAsync();
-        //            return;
-        //        }
-        //    }
-        //} 
         #endregion
 
         #region Paises
+        public async Task<List<Paises>> PaisesGetAll()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Paises", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Paises>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToPaises(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        private Paises MapToPaises(SqlDataReader reader)
+        {
+            return new Paises()
+            {
+
+                Id = (int)reader["Id"],
+                CodigoPais = reader["CodigoPais"].ToString(),
+                Nombre = reader["Nombre"].ToString(),
+                Active = (Boolean)reader["Active"]
+            };
+        }
+
+        public async Task<Paises> PaisesGetById(int Id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Paises_ById", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Id", Id));
+                    Paises response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response = MapToPaises(reader);
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task<List<Paises>> PaisesGetActives()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Paises_Active", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Paises>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToPaises(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task PaisesInsert(Paises Pais)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_INS_Paises", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@CodigoPais", Pais.CodigoPais));
+                    cmd.Parameters.Add(new SqlParameter("@Nombre", Pais.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@User", Pais.IdUsuarioCreador));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
         #endregion
 
         #region Proveedores
+        public async Task<List<Proveedores>> ProveedoresGetAll()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Proveedores", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Proveedores>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToProveedores(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        private Proveedores MapToProveedores(SqlDataReader reader)
+        {
+            return new Proveedores()
+            {
+
+                IdProveedor = (int)reader["IdProveedor"],
+                RazonSocial = reader["RazonSocial"].ToString(),
+                Nombre = reader["Nombre"].ToString(),
+                Domicilio = reader["Domicilio"].ToString(),
+                IdCiudad = (int)reader["IdCiudad"],
+                IdEstado = (int)reader["IdEstado"],
+                IdPais = (int)reader["IdPais"],
+                CP = (int)reader["CP"]
+            };
+        }
+
+        public async Task<Proveedores> ProveedoresGetById(int Id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Proveedores_ById", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdProveedor", Id));
+                    Proveedores response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response = MapToProveedores(reader);
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task<List<Proveedores>> ProveedoresGetActives()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Proveedores_Active", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<Proveedores>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToProveedores(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task ProveedoresInsert(Proveedores Proveedor)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_INS_Proveedores", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@RazonSocial", Proveedor.RazonSocial));
+                    cmd.Parameters.Add(new SqlParameter("@Nombre", Proveedor.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@Domicilio", Proveedor.Domicilio));
+                    cmd.Parameters.Add(new SqlParameter("@IdCiudad", Proveedor.IdCiudad));
+                    cmd.Parameters.Add(new SqlParameter("@IdEstado", Proveedor.IdEstado));
+                    cmd.Parameters.Add(new SqlParameter("@IdPais", Proveedor.IdPais));
+                    cmd.Parameters.Add(new SqlParameter("@CP", Proveedor.CP));
+                    cmd.Parameters.Add(new SqlParameter("@User", Proveedor.IdUsuarioCreador));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
         #endregion
 
         #region Recibos
+        public async Task DeleteRecibos(int Id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_DEL_Recibos", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdRecibo", Id));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
         #endregion
 
         #region TipoUsuarios
