@@ -202,7 +202,7 @@ namespace NetCoreApiSistemaAxosNet.Data
             }
         }
 
-        public async Task EstadoInsert(Estados Estado)
+        public async Task EstadosInsert(Estados Estado)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -537,7 +537,87 @@ namespace NetCoreApiSistemaAxosNet.Data
         #endregion
 
         #region Recibos
-        public async Task DeleteRecibos(int Id)
+        public async Task<List<Recibos>> RecibosGetAll(int IdUser)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Recibos", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@UsuarioCaptura", IdUser));
+                    var response = new List<Recibos>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToRecibos(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        private Recibos MapToRecibos(SqlDataReader reader)
+        {
+            return new Recibos()
+            {
+                IdRecibo = (int)reader["IdRecibo"],
+                //RazonSocial = reader["RazonSocial"].ToString(),
+                //Nombre = reader["Nombre"].ToString(),
+                Monto = (Decimal)reader["Monto"],
+                //CodigoMoneda = reader["Nombre"].ToString(),
+                Comentarios = reader["Comentarios"].ToString()
+            };
+        }
+
+        public async Task<Recibos> RecibosGetById(int IdRecibo)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_Recibos_ById", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdRecibo", IdRecibo));
+                    Recibos response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response = MapToRecibos(reader);
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task RecibosInsert(Recibos Recibo)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_INS_Recibos", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdProveedor", Recibo.IdProveedor));
+                    cmd.Parameters.Add(new SqlParameter("@Monto", Recibo.Monto));
+                    cmd.Parameters.Add(new SqlParameter("@IdMoneda", Recibo.IdMoneda));
+                    cmd.Parameters.Add(new SqlParameter("@Comentarios", Recibo.Comentarios));
+                    cmd.Parameters.Add(new SqlParameter("@IdUser", Recibo.IdUsuarioCaptura));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
+
+        public async Task RecibosDelete(int Id)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
             {
@@ -554,6 +634,104 @@ namespace NetCoreApiSistemaAxosNet.Data
         #endregion
 
         #region TipoUsuarios
+        public async Task<List<TipoUsuarios>> TipoUsuariosGetAll()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_TipoUsers", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<TipoUsuarios>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToTipoUsuarios(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        private TipoUsuarios MapToTipoUsuarios(SqlDataReader reader)
+        {
+            return new TipoUsuarios()
+            {
+
+                Id = (int)reader["Id"],
+                Nombre = reader["Nombre"].ToString(),
+                Descripcion = reader["Descripcion"].ToString(),
+                Active = (Boolean)reader["Active"]
+            };
+        }
+
+        public async Task<TipoUsuarios> TipoUsuariosGetById(int Id)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_TipoUsers_ById", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@IdProveedor", Id));
+                    TipoUsuarios response = null;
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response = MapToTipoUsuarios(reader);
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task<List<TipoUsuarios>> TipoUsuariosGetActives()
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_SEL_TipoUsers_Active", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    var response = new List<TipoUsuarios>();
+                    await sql.OpenAsync();
+
+                    using (var reader = await cmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            response.Add(MapToTipoUsuarios(reader));
+                        }
+                    }
+
+                    return response;
+                }
+            }
+        }
+
+        public async Task TipoUsuariosInsert(TipoUsuarios TipoUsuario)
+        {
+            using (SqlConnection sql = new SqlConnection(_connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("SP_INS_TipoUsers", sql))
+                {
+                    cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                    cmd.Parameters.Add(new SqlParameter("@Nombre", TipoUsuario.Nombre));
+                    cmd.Parameters.Add(new SqlParameter("@Descripcion", TipoUsuario.Descripcion));
+                    cmd.Parameters.Add(new SqlParameter("@IdUser", TipoUsuario.IdUsuarioCreador));
+                    await sql.OpenAsync();
+                    await cmd.ExecuteNonQueryAsync();
+                    return;
+                }
+            }
+        }
         #endregion
 
         #region Usuarios

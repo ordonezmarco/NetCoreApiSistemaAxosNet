@@ -20,6 +20,8 @@ namespace NetCoreApiSistemaAxosNet.Models
         public DateTime FechaModificacion { get; set; }
         public int IdUsuarioModificador { get; set; }
 
+        //Proveedores Prov { get; set; }
+        //Monedas Mon { get; set; }
 
         public class Mapeo
         {
@@ -36,6 +38,9 @@ namespace NetCoreApiSistemaAxosNet.Models
                 mapeoRecibo.Property(x => x.IdUsuarioCaptura);
                 mapeoRecibo.Property(x => x.FechaModificacion);
                 mapeoRecibo.Property(x => x.IdUsuarioModificador);
+                //mapeoRecibo.Property(x => x.Prov.RazonSocial);
+                //mapeoRecibo.Property(x => x.Prov.Nombre);
+                //mapeoRecibo.Property(x => x.Mon.CodigoMoneda);
 
                 mapeoRecibo.ToTable("tblRecibos");
             }

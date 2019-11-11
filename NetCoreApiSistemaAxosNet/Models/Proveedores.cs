@@ -31,9 +31,8 @@ namespace NetCoreApiSistemaAxosNet.Models
                 mapeoProveedor.Property(x => x.RazonSocial);
                 mapeoProveedor.Property(x => x.Nombre);
                 mapeoProveedor.Property(x => x.Domicilio);
-                mapeoProveedor.Property(x => x.Ciudad);
-                mapeoProveedor.Property(x => x.Distrito);
-                mapeoProveedor.Property(x => x.Estado);
+                mapeoProveedor.Property(x => x.IdCiudad);
+                mapeoProveedor.Property(x => x.IdEstado);
                 mapeoProveedor.Property(x => x.IdPais);
                 mapeoProveedor.Property(x => x.CP);
                 mapeoProveedor.Property(x => x.Active);

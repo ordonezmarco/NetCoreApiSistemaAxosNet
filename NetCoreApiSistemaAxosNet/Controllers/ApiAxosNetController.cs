@@ -66,6 +66,33 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region Estados
+        [Route("EstadosGet")]
+        public async Task<ActionResult<IEnumerable<Estados>>> EstadosGetAll()
+        {
+            return await _repository.EstadosGetAll();
+        }
+
+        [HttpGet("EstadosGet/{id}")]
+        public async Task<ActionResult<Estados>> EstadosGetById(int id)
+        {
+            var response = await _repository.EstadosGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("EstadosGetActives")]
+        public async Task<ActionResult<IEnumerable<Estados>>> EstadosGetActives()
+        {
+            return await _repository.EstadosGetActives();
+        }
+
+        [HttpPost]
+        [Route("EstadosInsert")]
+        public async Task EstadosInsert([FromBody] Estados Estado)
+        {
+            await _repository.EstadosInsert(Estado);
+        }
         #endregion
 
         #region Menus
@@ -125,16 +152,72 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region Paises
-        [HttpGet]
-        [Route("ListarPaises")]
-        public IActionResult ListarPaises()
+        [Route("PaisesGet")]
+        public async Task<ActionResult<IEnumerable<Paises>>> PaisesGetAll()
         {
-            var result = _apiService.ListarPaises();
-            return Ok(result);
+            return await _repository.PaisesGetAll();
         }
+
+        [HttpGet("PaisesGet/{id}")]
+        public async Task<ActionResult<Paises>> PaisesGetById(int id)
+        {
+            var response = await _repository.PaisesGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("PaisesGetActives")]
+        public async Task<ActionResult<IEnumerable<Paises>>> PaisesGetActives()
+        {
+            return await _repository.PaisesGetActives();
+        }
+
+        [HttpPost]
+        [Route("PaisesInsert")]
+        public async Task PaisesInsert([FromBody] Paises Pais)
+        {
+            await _repository.PaisesInsert(Pais);
+        }
+
+        //[HttpGet]
+        //[Route("ListarPaises")]
+        //public IActionResult ListarPaises()
+        //{
+        //    var result = _apiService.ListarPaises();
+        //    return Ok(result);
+        //}
         #endregion
 
         #region Proveedores
+        [Route("ProveedoresGet")]
+        public async Task<ActionResult<IEnumerable<Proveedores>>> ProveedoresGetAll()
+        {
+            return await _repository.ProveedoresGetAll();
+        }
+
+        [HttpGet("ProveedoresGet/{id}")]
+        public async Task<ActionResult<Proveedores>> ProveedoresGetById(int id)
+        {
+            var response = await _repository.ProveedoresGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("ProveedoresGetActives")]
+        public async Task<ActionResult<IEnumerable<Proveedores>>> ProveedoresGetActives()
+        {
+            return await _repository.ProveedoresGetActives();
+        }
+
+        [HttpPost]
+        [Route("ProveedoresInsert")]
+        public async Task ProveedoresInsert([FromBody] Proveedores Proveedor)
+        {
+            await _repository.ProveedoresInsert(Proveedor);
+        }
+
         //[HttpGet]
         //[Route("ListarProveedores")]
         //public IActionResult ListarProveedores()
@@ -145,6 +228,33 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region Recibos
+        [Route("RecibosGetAll/{idUser}")]
+        public async Task<ActionResult<IEnumerable<Recibos>>> RecibosGetAll(int idUser)
+        {
+            return await _repository.RecibosGetAll(idUser);
+        }
+
+        [HttpGet("RecibosGetById/{id}")]
+        public async Task<ActionResult<Recibos>> RecibosGetById(int id)
+        {
+            var response = await _repository.RecibosGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpPost]
+        [Route("RecibosInsert")]
+        public async Task RecibosInsert([FromBody] Recibos Recibo)
+        {
+            await _repository.RecibosInsert(Recibo);
+        }
+
+        [HttpDelete("RecibosDelete/{id}")]
+        public async Task RecibosDelete(int id)
+        {
+            await _repository.RecibosDelete(id);
+        }
+
         //[HttpGet]
         //[Route("ListarRecibos")]
         //public IActionResult ListarRecibos()
@@ -155,6 +265,34 @@ namespace NetCoreApiSistemaAxosNet.Controllers
         #endregion
 
         #region TipoUsuarios
+        [Route("TipoUsuariosGet")]
+        public async Task<ActionResult<IEnumerable<TipoUsuarios>>> TipoUsuariosGetAll()
+        {
+            return await _repository.TipoUsuariosGetAll();
+        }
+
+        [HttpGet("TipoUsuariosGet/{id}")]
+        public async Task<ActionResult<TipoUsuarios>> TipoUsuariosGetById(int id)
+        {
+            var response = await _repository.TipoUsuariosGetById(id);
+            if (response == null) { return NotFound(); }
+            return response;
+        }
+
+        [HttpGet]
+        [Route("TipoUsuariosGetActives")]
+        public async Task<ActionResult<IEnumerable<TipoUsuarios>>> TipoUsuariosGetActives()
+        {
+            return await _repository.TipoUsuariosGetActives();
+        }
+
+        [HttpPost]
+        [Route("TipoUsuariosInsert")]
+        public async Task TipoUsuariosInsert([FromBody] TipoUsuarios TipoUsuario)
+        {
+            await _repository.TipoUsuariosInsert(TipoUsuario);
+        }
+
         //[HttpGet]
         //[Route("ListarTipoUsuarios")]
         //public IActionResult ListarTipoUsuarios()
